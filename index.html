@@ -3,67 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Moowre - Welcome to the farm">
-    <title>🐮 Moowre</title>
+    <meta name="description" content="Moowre - Learn Python like Duolingo">
+    <title>🐮 Moowre - Learn Python</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <svg class="cow-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Cow head -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-small">
+                <svg class="cow-icon-small" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <ellipse cx="50" cy="50" rx="30" ry="25" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                    <!-- Spots -->
                     <ellipse cx="35" cy="45" rx="8" ry="6" fill="#333"/>
                     <ellipse cx="60" cy="48" rx="7" ry="5" fill="#333"/>
-                    <!-- Ears -->
                     <ellipse cx="25" cy="35" rx="8" ry="12" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
                     <ellipse cx="75" cy="35" rx="8" ry="12" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                    <!-- Eyes -->
                     <circle cx="40" cy="45" r="3" fill="#333"/>
                     <circle cx="60" cy="45" r="3" fill="#333"/>
-                    <!-- Nose -->
                     <ellipse cx="50" cy="58" rx="10" ry="8" fill="#ffb6c1" stroke="#333" stroke-width="1.5"/>
                     <circle cx="47" cy="57" r="2" fill="#333"/>
                     <circle cx="53" cy="57" r="2" fill="#333"/>
-                    <!-- Horns -->
                     <path d="M 25 30 Q 20 20 22 15" stroke="#8b7355" stroke-width="3" fill="none" stroke-linecap="round"/>
                     <path d="M 75 30 Q 80 20 78 15" stroke="#8b7355" stroke-width="3" fill="none" stroke-linecap="round"/>
                 </svg>
-                <h1>Moowre</h1>
+                <span class="brand-name">Moowre</span>
             </div>
-            <p class="tagline">Welcome to the farm</p>
+            <div class="user-stats">
+                <div class="stat">
+                    <span class="stat-icon">🔥</span>
+                    <span class="stat-value" id="streak">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-value" id="points">0</span>
+                </div>
+            </div>
         </header>
 
-        <main>
-            <section class="hero">
-                <h2>Hello, I'm Moowre! 🐮</h2>
-                <p>This is a fresh start. Stay tuned for more content!</p>
-            </section>
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div id="dashboard" class="view active">
+                <div class="welcome">
+                    <h1>Learn Python 🐍</h1>
+                    <p>Interactive coding lessons, just like Duolingo!</p>
+                </div>
 
-            <section class="features">
-                <div class="feature-card">
-                    <span class="emoji">🌾</span>
-                    <h3>Fresh Content</h3>
-                    <p>Coming soon</p>
+                <div class="progress-overview">
+                    <div class="progress-card">
+                        <h3>Your Progress</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
+                        </div>
+                        <p><span id="completed-lessons">0</span> / <span id="total-lessons">15</span> lessons completed</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <span class="emoji">🥛</span>
-                    <h3>Quality First</h3>
-                    <p>Only the best</p>
+
+                <div class="lessons-grid">
+                    <div class="lesson-category">
+                        <h2>🌱 Basics</h2>
+                        <div class="lesson-cards">
+                            <div class="lesson-card" data-lesson="0">
+                                <div class="lesson-icon">1️⃣</div>
+                                <h3>Print & Variables</h3>
+                                <p>5 questions</p>
+                                <div class="lesson-progress">⭐⭐⭐</div>
+                            </div>
+                            <div class="lesson-card locked" data-lesson="1">
+                                <div class="lesson-icon">2️⃣</div>
+                                <h3>Data Types</h3>
+                                <p>5 questions</p>
+                                <div class="lesson-progress">🔒</div>
+                            </div>
+                            <div class="lesson-card locked" data-lesson="2">
+                                <div class="lesson-icon">3️⃣</div>
+                                <h3>Strings</h3>
+                                <p>5 questions</p>
+                                <div class="lesson-progress">🔒</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-category">
+                        <h2>🌿 Control Flow</h2>
+                        <div class="lesson-cards">
+                            <div class="lesson-card locked" data-lesson="3">
+                                <div class="lesson-icon">4️⃣</div>
+                                <h3>If Statements</h3>
+                                <p>5 questions</p>
+                                <div class="lesson-progress">🔒</div>
+                            </div>
+                            <div class="lesson-card locked" data-lesson="4">
+                                <div class="lesson-icon">5️⃣</div>
+                                <h3>Loops</h3>
+                                <p>5 questions</p>
+                                <div class="lesson-progress">🔒</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-category">
+                        <h2>🌳 Functions & More</h2>
+                        <div class="lesson-cards">
+                            <div class="lesson-card locked" data-lesson="5">
+                                <div class="lesson-icon">6️⃣</div>
+                                <h3>Functions</h3>
+                                <p>5 questions</p>
+                                <div class="lesson-progress">🔒</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <span class="emoji">🌱</span>
-                    <h3>Growing Daily</h3>
-                    <p>Watch this space</p>
+            </div>
+
+            <!-- Quiz View -->
+            <div id="quiz" class="view">
+                <div class="quiz-header">
+                    <button id="quit-btn" class="quit-btn">✕</button>
+                    <div class="progress-bar-quiz">
+                        <div class="progress-fill-quiz" id="quiz-progress"></div>
+                    </div>
                 </div>
-            </section>
+
+                <div class="quiz-content">
+                    <div class="question-container">
+                        <h2 id="question-text">Loading question...</h2>
+                        <div id="question-body"></div>
+                    </div>
+
+                    <div class="answer-feedback" id="feedback"></div>
+
+                    <div class="quiz-controls">
+                        <button id="check-btn" class="btn-primary">CHECK</button>
+                        <button id="continue-btn" class="btn-success" style="display: none;">CONTINUE</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results View -->
+            <div id="results" class="view">
+                <div class="results-container">
+                    <div class="results-icon">🎉</div>
+                    <h1>Lesson Complete!</h1>
+                    <div class="results-stats">
+                        <div class="result-stat">
+                            <div class="result-value" id="correct-count">0</div>
+                            <div class="result-label">Correct</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-value" id="points-earned">0</div>
+                            <div class="result-label">Points</div>
+                        </div>
+                    </div>
+                    <button id="continue-dashboard-btn" class="btn-primary">CONTINUE</button>
+                </div>
+            </div>
         </main>
-
-        <footer>
-            <p>&copy; 2026 Moowre. All rights reserved.</p>
-        </footer>
     </div>
     <script src="script.js"></script>
 </body>
