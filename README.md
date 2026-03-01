@@ -1,18 +1,27 @@
-# 🐮 Moowre
+# Photo Metadata Toolkit
 
-Welcome to Moowre - a fresh start!
+A browser-based tool to inspect, edit, and remove photo EXIF metadata.
 
-## About
+## What it does
 
-This is the official website for Moowre.
+- Read metadata from uploaded images
+- Edit common EXIF fields (JPEG)
+- Remove metadata and download a cleaned image (JPEG)
+- Keep processing local in the browser (no backend upload)
 
-## Features
+## Supported formats
 
-- Modern, responsive design
-- Custom cow icon
-- Clean and simple layout
-- Ready to customize
+- Read metadata: JPEG, PNG, WebP, TIFF (depends on embedded metadata)
+- Edit/remove metadata: JPEG (via `piexifjs`)
 
-## License
+## Development
 
-© 2026 Moowre. All rights reserved.
+This is a static site (GitHub Pages friendly). Open `index.html` directly, or run any local static server.
+
+Example:
+
+```bash
+python3 -m http.server 8080
+```
+
+Then open `http://localhost:8080`.
