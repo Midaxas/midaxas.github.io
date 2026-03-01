@@ -8,9 +8,11 @@ const editor = document.getElementById('editor');
 const readButton = document.getElementById('read-metadata-btn');
 const applyEditsButton = document.getElementById('apply-edits-btn');
 const removeMetadataButton = document.getElementById('remove-metadata-btn');
+const uploadZone = document.getElementById('upload-zone');
+const libraryStatus = document.getElementById('library-status');
 
-const exifrLib = window.exifr;
-const piexifLib = window.piexif;
+let exifrLib = window.exifr;
+let piexifLib = window.piexif;
 
 const EDITABLE_FIELDS = [
     { key: 'ImageDescription', ifd: '0th', tag: piexifLib?.ImageIFD?.ImageDescription ?? 270, label: 'Description' },
@@ -27,9 +29,74 @@ let currentFile = null;
 let currentDataUrl = '';
 let currentExif = null;
 
-function setStatus(message, isError = false) {
+function setStatus(message, type = 'info') {
     statusText.textContent = message;
-    statusText.style.color = isError ? '#fca5a5' : '#93c5fd';
+    statusText.className = `status ${type}`;
+}
+
+function setLibraryStatus() {
+    if (exifrLib && piexifLib) {
+        libraryStatus.textContent = 'Metadata libraries ready.';
+        return;
+    }
+    if (exifrLib && !piexifLib) {
+        libraryStatus.textContent = 'Reader ready. Edit/remove library missing.';
+        return;
+    }
+    if (!exifrLib && piexifLib) {
+        libraryStatus.textContent = 'Editor ready. Reader library missing.';
+        return;
+    }
+    libraryStatus.textContent = 'Metadata libraries not loaded yet.';
+}
+
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = () => reject(new Error(`Could not load ${src}`));
+        document.head.appendChild(script);
+    });
+}
+
+async function ensureLibraries() {
+    if (!exifrLib) {
+        const exifrSources = [
+            'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/full.umd.js',
+            'https://unpkg.com/exifr@7.1.3/dist/full.umd.js'
+        ];
+
+        for (const src of exifrSources) {
+            try {
+                await loadScript(src);
+                exifrLib = window.exifr;
+                if (exifrLib) break;
+            } catch {
+                continue;
+            }
+        }
+    }
+
+    if (!piexifLib) {
+        const piexifSources = [
+            'https://cdn.jsdelivr.net/npm/piexifjs@1.0.6/piexif.min.js',
+            'https://unpkg.com/piexifjs@1.0.6/piexif.js'
+        ];
+
+        for (const src of piexifSources) {
+            try {
+                await loadScript(src);
+                piexifLib = window.piexif;
+                if (piexifLib) break;
+            } catch {
+                continue;
+            }
+        }
+    }
+
+    setLibraryStatus();
 }
 
 function isJpeg(file) {
@@ -90,16 +157,23 @@ function createEditorFields(exifData) {
 
 async function readMetadata() {
     if (!currentFile) {
-        setStatus('Select a photo first.', true);
+        setStatus('Select a photo first.', 'error');
         return;
     }
 
     if (!exifrLib) {
-        setStatus('Metadata reader failed to load. Refresh the page and try again.', true);
+        metadataOutput.textContent = JSON.stringify({
+            fileName: currentFile.name,
+            fileType: currentFile.type || 'unknown',
+            fileSizeBytes: currentFile.size,
+            message: 'Metadata reader library unavailable.'
+        }, null, 2);
+        setStatus('Image loaded, but metadata reader is unavailable. Check internet/CDN access.', 'error');
+        clearEditor();
         return;
     }
 
-    setStatus('Reading metadata...');
+    setStatus('Reading metadata...', 'info');
 
     try {
         const metadata = await exifrLib.parse(currentFile, true);
@@ -108,27 +182,27 @@ async function readMetadata() {
             : 'No metadata found in this file.';
 
         createEditorFields(metadata || {});
-        setStatus('Metadata loaded. You can edit fields and download a new file.');
+        setStatus('Metadata loaded. You can edit fields and download a new file.', 'success');
     } catch (error) {
         metadataOutput.textContent = 'Could not parse metadata.';
         clearEditor();
-        setStatus(`Metadata read failed: ${error.message}`, true);
+        setStatus(`Metadata read failed: ${error.message}`, 'error');
     }
 }
 
 function applyEditsAndDownload() {
     if (!currentFile || !currentDataUrl) {
-        setStatus('Select a photo first.', true);
+        setStatus('Select a photo first.', 'error');
         return;
     }
 
     if (!isJpeg(currentFile)) {
-        setStatus('Editing EXIF is currently supported for JPEG files.', true);
+        setStatus('Editing EXIF is currently supported for JPEG files.', 'error');
         return;
     }
 
     if (!piexifLib) {
-        setStatus('Metadata editor failed to load. Refresh the page and try again.', true);
+        setStatus('Metadata editor failed to load. Refresh the page and try again.', 'error');
         return;
     }
 
@@ -151,39 +225,38 @@ function applyEditsAndDownload() {
         const exifBytes = piexifLib.dump(exif);
         const output = piexifLib.insert(exifBytes, currentDataUrl);
         downloadDataUrl(output, `${baseName(currentFile.name)}-edited.jpg`);
-        setStatus('Edited image downloaded.');
+        setStatus('Edited image downloaded.', 'success');
     } catch (error) {
-        setStatus(`Could not apply edits: ${error.message}`, true);
+        setStatus(`Could not apply edits: ${error.message}`, 'error');
     }
 }
 
 function removeMetadataAndDownload() {
     if (!currentFile || !currentDataUrl) {
-        setStatus('Select a photo first.', true);
+        setStatus('Select a photo first.', 'error');
         return;
     }
 
     if (!isJpeg(currentFile)) {
-        setStatus('Metadata removal in this version supports JPEG files.', true);
+        setStatus('Metadata removal in this version supports JPEG files.', 'error');
         return;
     }
 
     if (!piexifLib) {
-        setStatus('Metadata remover failed to load. Refresh the page and try again.', true);
+        setStatus('Metadata remover failed to load. Refresh the page and try again.', 'error');
         return;
     }
 
     try {
         const cleaned = piexifLib.remove(currentDataUrl);
         downloadDataUrl(cleaned, `${baseName(currentFile.name)}-clean.jpg`);
-        setStatus('Metadata removed and cleaned image downloaded.');
+        setStatus('Metadata removed and cleaned image downloaded.', 'success');
     } catch (error) {
-        setStatus(`Could not remove metadata: ${error.message}`, true);
+        setStatus(`Could not remove metadata: ${error.message}`, 'error');
     }
 }
 
-photoInput.addEventListener('change', async (event) => {
-    const file = event.target.files?.[0];
+async function handleSelectedFile(file) {
     currentFile = file || null;
     currentExif = null;
 
@@ -200,12 +273,12 @@ photoInput.addEventListener('change', async (event) => {
     }
 
     if (!file.type.startsWith('image/')) {
-        setStatus('Please select a valid image file.', true);
+        setStatus('Please select a valid image file.', 'error');
         return;
     }
 
     fileNameLabel.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
-    setStatus('Loading image...');
+    setStatus('Loading image...', 'info');
 
     try {
         currentDataUrl = await toDataURL(file);
@@ -218,17 +291,46 @@ photoInput.addEventListener('change', async (event) => {
         removeMetadataButton.disabled = !isJpeg(file);
 
         if (!isJpeg(file)) {
-            setStatus('Image loaded. Read works for many formats; edit/remove are enabled for JPEG only.');
+            setStatus('Image loaded. Read works for many formats; edit/remove are enabled for JPEG only.', 'info');
         } else {
-            setStatus('Image loaded. Reading metadata...');
+            setStatus('Image loaded. Reading metadata...', 'info');
         }
 
         await readMetadata();
     } catch (error) {
-        setStatus(`Failed to load file: ${error.message}`, true);
+        setStatus(`Failed to load file: ${error.message}`, 'error');
+    }
+}
+
+photoInput.addEventListener('change', async (event) => {
+    const file = event.target.files?.[0];
+    await handleSelectedFile(file);
+});
+
+uploadZone.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    uploadZone.classList.add('active');
+});
+
+uploadZone.addEventListener('dragleave', () => {
+    uploadZone.classList.remove('active');
+});
+
+uploadZone.addEventListener('drop', async (event) => {
+    event.preventDefault();
+    uploadZone.classList.remove('active');
+    const file = event.dataTransfer?.files?.[0];
+    if (file) {
+        await handleSelectedFile(file);
     }
 });
 
 readButton.addEventListener('click', readMetadata);
 applyEditsButton.addEventListener('click', applyEditsAndDownload);
 removeMetadataButton.addEventListener('click', removeMetadataAndDownload);
+
+(async function init() {
+    await ensureLibraries();
+    setLibraryStatus();
+    setStatus('Ready. Upload an image to start.', 'info');
+})();

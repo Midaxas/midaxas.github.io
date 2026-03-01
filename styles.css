@@ -62,19 +62,36 @@ p {
     font-size: 0.9rem;
 }
 
-.file-picker {
-    display: inline-block;
-    width: fit-content;
-    background: var(--primary);
-    color: white;
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
+.upload-zone {
+    display: grid;
+    gap: 0.2rem;
+    width: 100%;
+    border: 1px dashed #64748b;
+    background: rgba(15, 23, 42, 0.75);
+    color: #e2e8f0;
+    padding: 1rem;
+    border-radius: 10px;
     cursor: pointer;
-    font-weight: 600;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.file-picker:hover {
-    background: var(--primary-hover);
+.upload-zone:hover {
+    border-color: var(--primary);
+    background: rgba(30, 41, 59, 0.9);
+}
+
+.upload-zone.active {
+    border-color: var(--primary);
+    box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.upload-title {
+    font-weight: 700;
+}
+
+.upload-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-soft);
 }
 
 #photo-input {
@@ -89,7 +106,32 @@ p {
 .status {
     min-height: 1.3rem;
     font-size: 0.95rem;
-    color: var(--primary);
+    padding: 0.55rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.status.info {
+    color: #93c5fd;
+    background: rgba(30, 58, 138, 0.2);
+    border-color: rgba(59, 130, 246, 0.35);
+}
+
+.status.success {
+    color: #86efac;
+    background: rgba(22, 101, 52, 0.2);
+    border-color: rgba(74, 222, 128, 0.35);
+}
+
+.status.error {
+    color: #fca5a5;
+    background: rgba(127, 29, 29, 0.25);
+    border-color: rgba(248, 113, 113, 0.35);
+}
+
+.library-status {
+    font-size: 0.82rem;
+    color: var(--text-soft);
 }
 
 .grid {
@@ -149,6 +191,14 @@ p {
 
 .tiny {
     margin-top: 0.7rem;
+    font-size: 0.85rem;
+}
+
+.steps {
+    margin-top: 0.8rem;
+    display: grid;
+    gap: 0.3rem;
+    color: var(--text-soft);
     font-size: 0.85rem;
 }
 

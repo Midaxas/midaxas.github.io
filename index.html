@@ -13,10 +13,14 @@
             <h1>Photo Metadata Toolkit</h1>
             <p>Upload a photo to read, edit, or remove EXIF metadata directly in your browser.</p>
             <p class="note">Your files stay local. No upload to a server.</p>
-            <label class="file-picker" for="photo-input">Choose Photo</label>
+            <label class="upload-zone" for="photo-input" id="upload-zone">
+                <span class="upload-title">Choose Photo</span>
+                <span class="upload-subtitle">or drag and drop an image here</span>
+            </label>
             <input id="photo-input" type="file" accept="image/jpeg,image/jpg,image/png,image/webp,image/tiff">
             <div id="file-name" class="file-name">No file selected</div>
-            <div id="status" class="status" role="status" aria-live="polite"></div>
+            <div id="status" class="status info" role="status" aria-live="polite">Waiting for image…</div>
+            <div id="library-status" class="library-status">Checking metadata libraries…</div>
         </section>
 
         <section class="grid">
@@ -32,6 +36,11 @@
                     <button id="read-metadata-btn" class="btn" disabled>Read Metadata</button>
                     <button id="apply-edits-btn" class="btn" disabled>Apply Edits & Download</button>
                     <button id="remove-metadata-btn" class="btn danger" disabled>Remove Metadata & Download</button>
+                </div>
+                <div class="steps">
+                    <span>1) Upload image</span>
+                    <span>2) Review metadata</span>
+                    <span>3) Edit or clean</span>
                 </div>
                 <p class="tiny">Editing/removal currently supports JPEG best.</p>
             </article>
