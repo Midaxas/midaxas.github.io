@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">City Editorial Story</title>
+  <desc id="desc">Stylized editorial cityscape photo illustration.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1f254f"/>
+      <stop offset="65%" stop-color="#3d4f8b"/>
+      <stop offset="100%" stop-color="#8a96c5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <rect x="160" y="310" width="150" height="350" fill="#202744"/>
+  <rect x="350" y="250" width="190" height="410" fill="#1a1f3b"/>
+  <rect x="590" y="180" width="220" height="480" fill="#252f5a"/>
+  <rect x="860" y="280" width="160" height="380" fill="#1c2448"/>
+  <rect x="1060" y="220" width="180" height="440" fill="#263161"/>
+  <circle cx="1040" cy="180" r="70" fill="#e6ecff" opacity="0.8"/>
+</svg>

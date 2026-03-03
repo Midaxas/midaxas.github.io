@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" role="img" aria-labelledby="title desc">
+  <title id="title">Espresso Cup</title>
+  <desc id="desc">Stylized espresso close-up illustration.</desc>
+  <rect width="900" height="700" fill="#3a2418"/>
+  <ellipse cx="450" cy="390" rx="250" ry="150" fill="#f6e0c2"/>
+  <ellipse cx="450" cy="390" rx="180" ry="95" fill="#6d3a24"/>
+</svg>

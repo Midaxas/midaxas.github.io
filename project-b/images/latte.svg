@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" role="img" aria-labelledby="title desc">
+  <title id="title">Latte Art</title>
+  <desc id="desc">Stylized latte art illustration.</desc>
+  <rect width="900" height="700" fill="#4b2c1d"/>
+  <circle cx="450" cy="360" r="220" fill="#d8b28a"/>
+  <path d="M450 300 C510 220 610 320 450 470 C290 320 390 220 450 300 Z" fill="#fff2df"/>
+</svg>

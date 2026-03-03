@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cafe Interior Hero</title>
+  <desc id="desc">Stylized cozy coffee shop interior photo illustration.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6a4129"/>
+      <stop offset="55%" stop-color="#3f2518"/>
+      <stop offset="100%" stop-color="#23130c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <rect x="140" y="200" width="1120" height="520" rx="26" fill="#8a5a3b" opacity="0.22"/>
+  <circle cx="1080" cy="210" r="100" fill="#ffd9a4" opacity="0.7"/>
+  <rect x="300" y="540" width="780" height="120" rx="18" fill="#8f6040"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" role="img" aria-labelledby="title desc">
+  <title id="title">Pastry Plate</title>
+  <desc id="desc">Stylized pastry plate illustration.</desc>
+  <rect width="900" height="700" fill="#352116"/>
+  <ellipse cx="450" cy="460" rx="280" ry="110" fill="#f2ddc1"/>
+  <path d="M260 420 C350 280 550 280 640 420 C550 520 350 520 260 420 Z" fill="#cf8c4d"/>
+  <path d="M300 410 C360 340 540 340 600 410" stroke="#9c5f30" stroke-width="14" fill="none"/>
+</svg>

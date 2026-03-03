@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Golden Hour Wedding</title>
+  <desc id="desc">Stylized warm sunset wedding photo illustration.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8c27a"/>
+      <stop offset="60%" stop-color="#c06d52"/>
+      <stop offset="100%" stop-color="#5e3c4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <circle cx="1110" cy="180" r="120" fill="#ffe5b8" opacity="0.75"/>
+  <path d="M0 660 C260 560 500 710 760 640 C980 580 1180 650 1400 590 L1400 900 L0 900 Z" fill="#5b3b3f" opacity="0.8"/>
+  <path d="M560 770 C580 620 640 500 700 500 C760 500 820 620 840 770 Z" fill="#f7eee6"/>
+  <path d="M650 770 C660 660 690 590 700 590 C710 590 740 660 750 770 Z" fill="#2d2f48"/>
+</svg>

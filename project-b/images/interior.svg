@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" role="img" aria-labelledby="title desc">
+  <title id="title">Cafe Interior</title>
+  <desc id="desc">Stylized cafe interior illustration.</desc>
+  <rect width="900" height="700" fill="#2b1a12"/>
+  <rect x="90" y="110" width="720" height="470" rx="20" fill="#6f4a34" opacity="0.35"/>
+  <rect x="170" y="430" width="560" height="70" rx="14" fill="#8f6040"/>
+  <circle cx="700" cy="180" r="70" fill="#ffdda9" opacity="0.75"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Studio Brand Portrait</title>
+  <desc id="desc">Stylized modern studio portrait illustration.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b7c8ff"/>
+      <stop offset="50%" stop-color="#7a88cf"/>
+      <stop offset="100%" stop-color="#2f356b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <rect x="220" y="120" width="960" height="660" rx="34" fill="#f2f5ff" opacity="0.2"/>
+  <circle cx="700" cy="380" r="120" fill="#f5d9c4"/>
+  <rect x="560" y="500" width="280" height="220" rx="36" fill="#1f2348"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Coastal Couple Session</title>
+  <desc id="desc">Stylized coastal portrait photo illustration.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#86bfff"/>
+      <stop offset="100%" stop-color="#d6ecff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="url(#sky)"/>
+  <rect y="520" width="1400" height="380" fill="#3a7ab6"/>
+  <path d="M0 610 C180 560 360 620 520 600 C780 560 940 640 1200 600 C1280 590 1340 585 1400 590 L1400 900 L0 900 Z" fill="#2d5f95"/>
+  <circle cx="680" cy="520" r="70" fill="#f6ddc8"/>
+  <circle cx="770" cy="520" r="66" fill="#f0d2bb"/>
+  <rect x="620" y="590" width="210" height="170" rx="28" fill="#2a3657"/>
+</svg>
