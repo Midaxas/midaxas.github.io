@@ -3,64 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Photo metadata reader, editor, and remover.">
-    <title>Photo Metadata Toolkit</title>
+    <meta name="description" content="Moowre is a static website coding studio crafting fast, focused, and maintainable web experiences.">
+    <title>Moowre — Static Website Coding Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <main class="app">
-        <section class="card hero">
-            <h1>Photo Metadata Toolkit</h1>
-            <p>Upload a photo to read, edit, or remove EXIF metadata directly in your browser.</p>
-            <p class="note">Your files stay local. No upload to a server.</p>
-            <label class="upload-zone" for="photo-input" id="upload-zone">
-                <span class="upload-title">Choose Photo</span>
-                <span class="upload-subtitle">or drag and drop an image here</span>
-            </label>
-            <input id="photo-input" type="file" accept="image/jpeg,image/jpg,image/png,image/webp,image/tiff">
-            <div id="file-name" class="file-name">No file selected</div>
-            <div id="status" class="status info" role="status" aria-live="polite">Waiting for image…</div>
-            <div id="library-status" class="library-status">Checking metadata libraries…</div>
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a href="#top" class="brand" aria-label="Moowre home">
+                <span class="brand-mark">M</span>
+                <span class="brand-text">Moowre</span>
+            </a>
+            <nav aria-label="Primary navigation">
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#process">Process</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="hero section">
+            <div class="container hero-grid">
+                <div>
+                    <p class="eyebrow">Static Website Coding Studio</p>
+                    <h1>Moowre builds high-performance static websites for modern brands.</h1>
+                    <p class="hero-copy">From single-page launches to full studio websites, we design and code lightweight, SEO-ready experiences that are fast, clean, and easy to maintain.</p>
+                    <div class="hero-cta">
+                        <a class="btn btn-primary" href="#contact">Start a Project</a>
+                        <a class="btn btn-ghost" href="#portfolio">View Portfolio Prototype</a>
+                    </div>
+                </div>
+                <aside class="hero-panel" aria-label="Studio snapshot">
+                    <h2>Studio Snapshot</h2>
+                    <ul>
+                        <li><span>Studio Name</span><strong>Moowre</strong></li>
+                        <li><span>Founder</span><strong>Midaxas</strong></li>
+                        <li><span>Current Team</span><strong>1 Builder</strong></li>
+                        <li><span>Specialty</span><strong>Static Website Development</strong></li>
+                    </ul>
+                </aside>
+            </div>
         </section>
 
-        <section class="grid">
-            <article class="card preview-card">
-                <h2>Preview</h2>
-                <img id="image-preview" alt="Selected photo preview" hidden>
-                <p id="preview-placeholder" class="placeholder">Select an image to preview it here.</p>
-            </article>
-
-            <article class="card actions-card">
-                <h2>Actions</h2>
-                <div class="actions">
-                    <button id="read-metadata-btn" class="btn" disabled>Read Metadata</button>
-                    <button id="apply-edits-btn" class="btn" disabled>Apply Edits & Download</button>
-                    <button id="remove-metadata-btn" class="btn danger" disabled>Remove Metadata & Download</button>
+        <section id="about" class="section">
+            <div class="container">
+                <h2>About Moowre</h2>
+                <p>Moowre is an independent coding studio focused on static websites that feel premium without being overcomplicated. Right now the studio is led by one developer, Midaxas, with a clear mission: create polished websites that are quick to launch and simple to grow.</p>
+                <div class="cards three-col">
+                    <article class="card">
+                        <h3>Vision</h3>
+                        <p>Make high-quality web presence accessible through focused static builds.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Approach</h3>
+                        <p>Clear communication, practical design choices, and clean front-end code.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Promise</h3>
+                        <p>Fast pages, strong structure, and a reliable foundation for your brand.</p>
+                    </article>
                 </div>
-                <div class="steps">
-                    <span>1) Upload image</span>
-                    <span>2) Review metadata</span>
-                    <span>3) Edit or clean</span>
-                </div>
-                <p class="tiny">Editing/removal currently supports JPEG best.</p>
-            </article>
+            </div>
         </section>
 
-        <section class="grid">
-            <article class="card">
-                <h2>Editable EXIF Fields</h2>
-                <div id="editor" class="editor"></div>
-            </article>
+        <section id="services" class="section alt">
+            <div class="container">
+                <h2>What We Build</h2>
+                <div class="cards three-col">
+                    <article class="card">
+                        <h3>Landing Pages</h3>
+                        <p>Focused pages built to communicate your offer and convert visitors.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Business Websites</h3>
+                        <p>Multi-section static websites for creators, agencies, and small teams.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Portfolio Sites</h3>
+                        <p>Showcase-driven websites with storytelling layouts and project highlights.</p>
+                    </article>
+                </div>
+                <ul class="stack">
+                    <li>Semantic HTML architecture</li>
+                    <li>Responsive CSS systems</li>
+                    <li>Vanilla JavaScript interactions</li>
+                    <li>Performance and accessibility-first decisions</li>
+                </ul>
+            </div>
+        </section>
 
-            <article class="card">
-                <h2>All Detected Metadata</h2>
-                <pre id="metadata-output" class="metadata-output">No metadata loaded yet.</pre>
-            </article>
+        <section id="process" class="section">
+            <div class="container">
+                <h2>How Moowre Works</h2>
+                <div class="timeline">
+                    <article class="card">
+                        <h3>01 — Discovery</h3>
+                        <p>Define your goals, audience, and the exact pages needed.</p>
+                    </article>
+                    <article class="card">
+                        <h3>02 — Structure</h3>
+                        <p>Create a content-first layout and visual direction for your brand.</p>
+                    </article>
+                    <article class="card">
+                        <h3>03 — Build</h3>
+                        <p>Code the website with reusable sections and responsive behavior.</p>
+                    </article>
+                    <article class="card">
+                        <h3>04 — Launch</h3>
+                        <p>Deliver a deployment-ready static site with guidance for updates.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="section alt">
+            <div class="container">
+                <div class="portfolio-head">
+                    <h2>Website in Website — Portfolio Preview</h2>
+                    <p>This is a temporary in-site portfolio placeholder. Final live projects will replace these cards.</p>
+                </div>
+
+                <div class="portfolio-shell" role="region" aria-label="Embedded portfolio placeholder">
+                    <div class="shell-topbar">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <p>moowre.dev/portfolio-preview</p>
+                    </div>
+
+                    <div class="portfolio-inner">
+                        <aside class="portfolio-tabs" aria-label="Portfolio project selector">
+                            <button class="tab-btn active" data-project="0">Project A</button>
+                            <button class="tab-btn" data-project="1">Project B</button>
+                            <button class="tab-btn" data-project="2">Project C</button>
+                        </aside>
+
+                        <article class="portfolio-view" id="portfolio-view" aria-live="polite">
+                            <h3>Starter Portfolio Project</h3>
+                            <p>Placeholder case study block. Replace this with a real website project summary, screenshots, and outcomes.</p>
+                            <ul>
+                                <li>Status: Placeholder</li>
+                                <li>Type: Static Website</li>
+                                <li>Stack: HTML • CSS • JavaScript</li>
+                            </ul>
+                            <a class="btn btn-primary disabled" href="#" aria-disabled="true">Demo Coming Soon</a>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="container contact-box">
+                <div>
+                    <h2>Let’s Build Your Website</h2>
+                    <p>Moowre is currently open for new projects. If you need a clean static website, reach out and share your idea.</p>
+                </div>
+                <div class="contact-actions">
+                    <a class="btn btn-primary" href="mailto:hello@moowre.com">hello@moowre.com</a>
+                    <p class="contact-note">You can change this email in the source anytime.</p>
+                </div>
+            </div>
         </section>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/full.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/piexifjs@1.0.6/piexif.min.js"></script>
+    <footer class="site-footer">
+        <div class="container footer-wrap">
+            <p>© <span id="year"></span> Moowre. Built by Midaxas.</p>
+            <a href="#top">Back to top</a>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
