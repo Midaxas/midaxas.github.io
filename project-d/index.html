@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CaseRush Market - CS-style case opening game.">
+    <title>CaseRush Market</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Teko:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+    <header class="topbar">
+        <a href="/" class="home-link">&larr; Back to Moowre</a>
+        <p>CaseRush Market</p>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="eyebrow">Project D</p>
+            <h1>CaseRush Market</h1>
+            <p>CS-style skin unboxing with live roll animation, inventory trading, and passive cash drops to keep the game moving.</p>
+            <div class="hero-stats">
+                <article><span>Cash</span><strong id="cash-value">$0.00</strong></article>
+                <article><span>Inventory Value</span><strong id="inventory-value">$0.00</strong></article>
+                <article><span>Cases Opened</span><strong id="opened-value">0</strong></article>
+            </div>
+        </section>
+
+        <section class="income-bar" aria-live="polite">
+            <p>Stipend: <strong id="income-amount">$0</strong> every <strong id="income-interval">0s</strong></p>
+            <p>Next payout in <strong id="income-countdown">0s</strong></p>
+        </section>
+
+        <section class="layout">
+            <div class="left-col">
+                <section class="panel">
+                    <h2>Case Shop</h2>
+                    <div id="case-list" class="case-list"></div>
+                </section>
+
+                <section class="panel roll-panel">
+                    <h2>Live Roll</h2>
+                    <div class="roll-window" id="roll-window">
+                        <div class="roll-marker" aria-hidden="true"></div>
+                        <div class="roll-track" id="roll-track"></div>
+                    </div>
+                    <p id="roll-result" class="roll-result">Choose a case and click open.</p>
+                </section>
+
+                <section class="panel">
+                    <h2>Skin Market</h2>
+                    <p class="panel-note">Buy directly from market listings and flip skins in your inventory.</p>
+                    <div id="market-list" class="market-list"></div>
+                </section>
+            </div>
+
+            <aside class="panel right-col">
+                <div class="inventory-head">
+                    <h2>Inventory</h2>
+                    <button id="sell-all-btn" class="btn ghost" type="button">Sell All</button>
+                </div>
+                <div id="inventory-list" class="inventory-list"></div>
+            </aside>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> CaseRush Market</p>
+    </footer>
+
+    <script src="script.js?v=1"></script>
+</body>
+</html>
