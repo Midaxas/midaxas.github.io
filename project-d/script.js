@@ -8,206 +8,207 @@ const incomeCountdownNode = document.getElementById('income-countdown');
 const caseListNode = document.getElementById('case-list');
 const marketListNode = document.getElementById('market-list');
 const inventoryListNode = document.getElementById('inventory-list');
+const historyListNode = document.getElementById('history-list');
 const rollWindowNode = document.getElementById('roll-window');
 const rollTrackNode = document.getElementById('roll-track');
 const rollResultNode = document.getElementById('roll-result');
 const sellAllButton = document.getElementById('sell-all-btn');
 
-const SAVE_COOKIE = 'caseRushSaveV1';
+const SAVE_COOKIE = 'caseRushSaveV2';
 const SAVE_DAYS = 365;
 const INCOME_AMOUNT = 70;
 const INCOME_INTERVAL_MS = 90 * 1000;
+const API_SKINS_URL = 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json';
+const API_CRATES_URL = 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/crates.json';
 
-const skins = {
-    asiimov: {
-        id: 'asiimov',
-        name: 'AK-47 | Asiimov',
-        rarity: 'covert',
-        value: 120.0,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/ak-47-asiimov.png'
-    },
-    redline: {
-        id: 'redline',
-        name: 'AK-47 | Redline',
-        rarity: 'classified',
-        value: 38.5,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/ak-47-redline.png'
-    },
-    frontside: {
-        id: 'frontside',
-        name: 'AK-47 | Frontside Misty',
-        rarity: 'restricted',
-        value: 23.1,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/ak-47-frontside-misty.png'
-    },
+const fallbackImage = (label) => {
+    return `https://dummyimage.com/600x340/1a2e87/b3c7ff.png&text=${encodeURIComponent(label)}`;
+};
+
+const skinCatalog = {
     elitebuild: {
         id: 'elitebuild',
         name: 'AK-47 | Elite Build',
         rarity: 'mil-spec',
         value: 7.2,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/ak-47-elite-build.png'
+        image: fallbackImage('AK-47 | Elite Build')
     },
-    vulcan: {
-        id: 'vulcan',
-        name: 'AK-47 | Vulcan',
-        rarity: 'covert',
-        value: 210.0,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/ak-47-vulcan.png'
+    p250asiimov: {
+        id: 'p250asiimov',
+        name: 'P250 | Asiimov',
+        rarity: 'industrial',
+        value: 6.8,
+        image: fallbackImage('P250 | Asiimov')
     },
-    hyperbeast: {
-        id: 'hyperbeast',
-        name: 'M4A1-S | Hyper Beast',
-        rarity: 'classified',
-        value: 58.9,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/m4a1-s-hyper-beast.png'
+    frontside: {
+        id: 'frontside',
+        name: 'AK-47 | Frontside Misty',
+        rarity: 'restricted',
+        value: 24.5,
+        image: fallbackImage('AK-47 | Frontside Misty')
     },
     nightmare: {
         id: 'nightmare',
         name: 'M4A1-S | Nightmare',
         rarity: 'restricted',
         value: 16.3,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/m4a1-s-nightmare.png'
+        image: fallbackImage('M4A1-S | Nightmare')
     },
-    decimator: {
-        id: 'decimator',
-        name: 'M4A4 | The Emperor',
+    redline: {
+        id: 'redline',
+        name: 'AK-47 | Redline',
         rarity: 'classified',
-        value: 34.8,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/m4a4-the-emperor.png'
+        value: 40.2,
+        image: fallbackImage('AK-47 | Redline')
     },
-    dragonlore: {
-        id: 'dragonlore',
-        name: 'AWP | Dragon Lore',
-        rarity: 'covert',
-        value: 1800.0,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/awp-dragon-lore.png'
-    },
-    asiimovawp: {
-        id: 'asiimovawp',
-        name: 'AWP | Asiimov',
-        rarity: 'covert',
-        value: 140.0,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/awp-asiimov.png'
-    },
-    atheris: {
-        id: 'atheris',
-        name: 'AWP | Atheris',
-        rarity: 'restricted',
-        value: 12.7,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/awp-atheris.png'
-    },
-    deagleblaze: {
-        id: 'deagleblaze',
-        name: 'Desert Eagle | Blaze',
-        rarity: 'covert',
-        value: 520.0,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/desert-eagle-blaze.png'
-    },
-    glockfade: {
-        id: 'glockfade',
-        name: 'Glock-18 | Fade',
-        rarity: 'covert',
-        value: 480.0,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/glock-18-fade.png'
-    },
-    uspprintstream: {
-        id: 'uspprintstream',
-        name: 'USP-S | Printstream',
+    hyperbeast: {
+        id: 'hyperbeast',
+        name: 'M4A1-S | Hyper Beast',
         rarity: 'classified',
-        value: 65.0,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/usp-s-printstream.png'
-    },
-    p250asiimov: {
-        id: 'p250asiimov',
-        name: 'P250 | Asiimov',
-        rarity: 'restricted',
-        value: 10.5,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/p250-asiimov.png'
-    },
-    fivezeblue: {
-        id: 'fivezeblue',
-        name: 'Five-SeveN | Case Hardened',
-        rarity: 'classified',
-        value: 42.4,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/five-seven-case-hardened.png'
+        value: 59.4,
+        image: fallbackImage('M4A1-S | Hyper Beast')
     },
     mp9starlight: {
         id: 'mp9starlight',
         name: 'MP9 | Starlight Protector',
         rarity: 'classified',
         value: 68.2,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/mp9-starlight-protector.png'
+        image: fallbackImage('MP9 | Starlight Protector')
+    },
+    asiimovawp: {
+        id: 'asiimovawp',
+        name: 'AWP | Asiimov',
+        rarity: 'covert',
+        value: 142.0,
+        image: fallbackImage('AWP | Asiimov')
+    },
+    deagleblaze: {
+        id: 'deagleblaze',
+        name: 'Desert Eagle | Blaze',
+        rarity: 'covert',
+        value: 530.0,
+        image: fallbackImage('Desert Eagle | Blaze')
+    },
+    atheris: {
+        id: 'atheris',
+        name: 'AWP | Atheris',
+        rarity: 'mil-spec',
+        value: 12.7,
+        image: fallbackImage('AWP | Atheris')
+    },
+    famasrollcage: {
+        id: 'famasrollcage',
+        name: 'FAMAS | Roll Cage',
+        rarity: 'restricted',
+        value: 14.9,
+        image: fallbackImage('FAMAS | Roll Cage')
+    },
+    fivezeblue: {
+        id: 'fivezeblue',
+        name: 'Five-SeveN | Case Hardened',
+        rarity: 'classified',
+        value: 44.2,
+        image: fallbackImage('Five-SeveN | Case Hardened')
+    },
+    uspprintstream: {
+        id: 'uspprintstream',
+        name: 'USP-S | Printstream',
+        rarity: 'classified',
+        value: 65.0,
+        image: fallbackImage('USP-S | Printstream')
     },
     mac10neon: {
         id: 'mac10neon',
         name: 'MAC-10 | Neon Rider',
         rarity: 'classified',
         value: 24.2,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/mac-10-neon-rider.png'
+        image: fallbackImage('MAC-10 | Neon Rider')
     },
-    famasrollcage: {
-        id: 'famasrollcage',
-        name: 'FAMAS | Roll Cage',
-        rarity: 'classified',
-        value: 14.9,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/famas-roll-cage.png'
+    glockfade: {
+        id: 'glockfade',
+        name: 'Glock-18 | Fade',
+        rarity: 'covert',
+        value: 480.0,
+        image: fallbackImage('Glock-18 | Fade')
+    },
+    vulcan: {
+        id: 'vulcan',
+        name: 'AK-47 | Vulcan',
+        rarity: 'covert',
+        value: 210.0,
+        image: fallbackImage('AK-47 | Vulcan')
+    },
+    asiimov: {
+        id: 'asiimov',
+        name: 'AK-47 | Asiimov',
+        rarity: 'covert',
+        value: 120.0,
+        image: fallbackImage('AK-47 | Asiimov')
+    },
+    dragonlore: {
+        id: 'dragonlore',
+        name: 'AWP | Dragon Lore',
+        rarity: 'covert',
+        value: 1800.0,
+        image: fallbackImage('AWP | Dragon Lore')
     },
     galilchatter: {
         id: 'galilchatter',
         name: 'Galil AR | Chatterbox',
         rarity: 'classified',
         value: 19.1,
-        image: 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/galil-ar-chatterbox.png'
+        image: fallbackImage('Galil AR | Chatterbox')
     }
 };
 
 const cases = [
     {
         id: 'alpha-case',
+        apiName: 'Recoil Case',
         name: 'Alpha Strike Case',
         price: 60,
+        image: fallbackImage('Alpha Strike Case'),
         loot: [
-            { skinId: 'elitebuild', weight: 24 },
-            { skinId: 'p250asiimov', weight: 20 },
-            { skinId: 'frontside', weight: 16 },
-            { skinId: 'nightmare', weight: 14 },
+            { skinId: 'p250asiimov', weight: 24 },
+            { skinId: 'elitebuild', weight: 20 },
+            { skinId: 'nightmare', weight: 18 },
+            { skinId: 'frontside', weight: 14 },
             { skinId: 'redline', weight: 10 },
             { skinId: 'hyperbeast', weight: 8 },
-            { skinId: 'mp9starlight', weight: 4 },
-            { skinId: 'asiimovawp', weight: 3 },
-            { skinId: 'deagleblaze', weight: 1 }
+            { skinId: 'mp9starlight', weight: 6 }
         ]
     },
     {
         id: 'sniper-case',
+        apiName: 'Kilowatt Case',
         name: 'Longshot Vault Case',
         price: 105,
+        image: fallbackImage('Longshot Vault Case'),
         loot: [
             { skinId: 'atheris', weight: 23 },
-            { skinId: 'famasrollcage', weight: 20 },
+            { skinId: 'famasrollcage', weight: 19 },
+            { skinId: 'mac10neon', weight: 16 },
             { skinId: 'fivezeblue', weight: 14 },
-            { skinId: 'uspprintstream', weight: 12 },
-            { skinId: 'asiimovawp', weight: 11 },
-            { skinId: 'mac10neon', weight: 9 },
-            { skinId: 'glockfade', weight: 6 },
-            { skinId: 'vulcan', weight: 4 },
-            { skinId: 'dragonlore', weight: 1 }
+            { skinId: 'uspprintstream', weight: 11 },
+            { skinId: 'asiimovawp', weight: 9 },
+            { skinId: 'vulcan', weight: 8 }
         ]
     },
     {
         id: 'elite-case',
+        apiName: 'Operation Broken Fang Case',
         name: 'Blacksite Elite Case',
         price: 175,
+        image: fallbackImage('Blacksite Elite Case'),
         loot: [
             { skinId: 'galilchatter', weight: 20 },
             { skinId: 'frontside', weight: 17 },
-            { skinId: 'redline', weight: 14 },
-            { skinId: 'uspprintstream', weight: 12 },
-            { skinId: 'asiimov', weight: 9 },
-            { skinId: 'vulcan', weight: 8 },
-            { skinId: 'deagleblaze', weight: 7 },
-            { skinId: 'glockfade', weight: 7 },
-            { skinId: 'dragonlore', weight: 1 }
+            { skinId: 'redline', weight: 16 },
+            { skinId: 'uspprintstream', weight: 14 },
+            { skinId: 'asiimov', weight: 11 },
+            { skinId: 'deagleblaze', weight: 10 },
+            { skinId: 'glockfade', weight: 8 },
+            { skinId: 'dragonlore', weight: 4 }
         ]
     }
 ];
@@ -224,12 +225,13 @@ const marketSkins = [
 ];
 
 const defaultState = {
-    cash: 650,
+    cash: 700,
     inventory: [],
     openedCases: 0,
     soldSkins: 0,
     nextId: 1,
-    lastIncomeAt: Date.now()
+    lastIncomeAt: Date.now(),
+    history: []
 };
 
 let state = loadState();
@@ -238,7 +240,6 @@ let isRolling = false;
 if (yearNode) {
     yearNode.textContent = String(new Date().getFullYear());
 }
-
 if (incomeAmountNode) {
     incomeAmountNode.textContent = formatMoney(INCOME_AMOUNT);
 }
@@ -246,17 +247,36 @@ if (incomeIntervalNode) {
     incomeIntervalNode.textContent = `${Math.floor(INCOME_INTERVAL_MS / 1000)}s`;
 }
 
-applyPassiveIncome();
-renderAll();
-setInterval(tickIncomeCountdown, 1000);
+bootstrap();
+
+async function bootstrap() {
+    await hydrateImagesFromApi();
+    applyPassiveIncome();
+    renderAll();
+    setInterval(tickIncomeCountdown, 1000);
+    setRollMessage('Choose a case and click open.', '');
+}
 
 function formatMoney(value) {
     return `$${value.toFixed(2)}`;
 }
 
+function addHistory(text, kind = 'info') {
+    const entry = {
+        text,
+        kind,
+        time: Date.now()
+    };
+
+    state.history.push(entry);
+    if (state.history.length > 25) {
+        state.history = state.history.slice(-25);
+    }
+}
+
 function clampInventorySize() {
-    if (state.inventory.length > 80) {
-        state.inventory = state.inventory.slice(-80);
+    if (state.inventory.length > 100) {
+        state.inventory = state.inventory.slice(-100);
     }
 }
 
@@ -292,10 +312,59 @@ function loadState() {
             openedCases: Number(parsed.openedCases) || 0,
             soldSkins: Number(parsed.soldSkins) || 0,
             nextId: Number(parsed.nextId) || 1,
-            lastIncomeAt: Number(parsed.lastIncomeAt) || Date.now()
+            lastIncomeAt: Number(parsed.lastIncomeAt) || Date.now(),
+            history: Array.isArray(parsed.history) ? parsed.history : []
         };
     } catch (error) {
         return { ...defaultState };
+    }
+}
+
+async function hydrateImagesFromApi() {
+    try {
+        const [skinsResponse, cratesResponse] = await Promise.all([
+            fetch(API_SKINS_URL),
+            fetch(API_CRATES_URL)
+        ]);
+
+        if (!skinsResponse.ok || !cratesResponse.ok) {
+            throw new Error('api-unavailable');
+        }
+
+        const [skinsData, cratesData] = await Promise.all([
+            skinsResponse.json(),
+            cratesResponse.json()
+        ]);
+
+        const imageBySkinName = new Map();
+        skinsData.forEach((item) => {
+            if (item && item.name && item.image) {
+                imageBySkinName.set(item.name, item.image);
+            }
+        });
+
+        Object.values(skinCatalog).forEach((skin) => {
+            const image = imageBySkinName.get(skin.name);
+            if (image) {
+                skin.image = image;
+            }
+        });
+
+        const imageByCaseName = new Map();
+        cratesData.forEach((crate) => {
+            if (crate && crate.name && crate.image) {
+                imageByCaseName.set(crate.name, crate.image);
+            }
+        });
+
+        cases.forEach((caseDef) => {
+            const image = imageByCaseName.get(caseDef.apiName);
+            if (image) {
+                caseDef.image = image;
+            }
+        });
+    } catch (error) {
+        addHistory('Image API unavailable. Fallback images enabled.', 'bad');
     }
 }
 
@@ -305,9 +374,10 @@ function applyPassiveIncome() {
     const ticks = Math.floor(elapsed / INCOME_INTERVAL_MS);
 
     if (ticks > 0) {
-        state.cash += ticks * INCOME_AMOUNT;
+        const payout = ticks * INCOME_AMOUNT;
+        state.cash += payout;
         state.lastIncomeAt += ticks * INCOME_INTERVAL_MS;
-        setRollMessage(`Passive payout received: ${formatMoney(ticks * INCOME_AMOUNT)}.`, 'log-good');
+        addHistory(`Offline payout received: ${formatMoney(payout)}.`, 'good');
         saveState();
     }
 
@@ -321,9 +391,10 @@ function tickIncomeCountdown() {
     if (passed >= INCOME_INTERVAL_MS) {
         state.cash += INCOME_AMOUNT;
         state.lastIncomeAt = now;
+        addHistory(`Passive payout collected: ${formatMoney(INCOME_AMOUNT)}.`, 'good');
         saveState();
         renderStats();
-        setRollMessage(`Income drop collected: ${formatMoney(INCOME_AMOUNT)}.`, 'log-good');
+        renderHistory();
     }
 
     const remaining = Math.max(0, INCOME_INTERVAL_MS - (Date.now() - state.lastIncomeAt));
@@ -339,20 +410,20 @@ function chooseWeightedSkin(lootTable) {
     for (const option of lootTable) {
         roll -= option.weight;
         if (roll <= 0) {
-            return skins[option.skinId];
+            return skinCatalog[option.skinId];
         }
     }
 
-    return skins[lootTable[lootTable.length - 1].skinId];
+    return skinCatalog[lootTable[lootTable.length - 1].skinId];
 }
 
 function rarityBadgeClass(rarity) {
     return rarity.toLowerCase().replace(/\s+/g, '-');
 }
 
-function cardImageMarkup(skin, className) {
-    const safeName = skin.name.replace(/"/g, '&quot;');
-    return `<img class="${className}" src="${skin.image}" alt="${safeName}" loading="lazy" onerror="this.onerror=null;this.src='https://dummyimage.com/600x340/132335/9bbbd1.png&text=${encodeURIComponent(skin.name)}';">`;
+function safeImg(url, alt, className) {
+    const safeAlt = alt.replace(/"/g, '&quot;');
+    return `<img class="${className}" src="${url}" alt="${safeAlt}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImage(alt)}';">`;
 }
 
 function renderStats() {
@@ -364,13 +435,42 @@ function renderStats() {
     }
 
     const inventoryValue = state.inventory.reduce((sum, item) => {
-        const skin = skins[item.skinId];
+        const skin = skinCatalog[item.skinId];
         return skin ? sum + skin.value : sum;
     }, 0);
 
     if (inventoryValueNode) {
         inventoryValueNode.textContent = formatMoney(inventoryValue);
     }
+}
+
+function caseOddsText(caseDef) {
+    const bucket = {
+        'mil-spec': 0,
+        restricted: 0,
+        classified: 0,
+        covert: 0,
+        industrial: 0,
+        consumer: 0
+    };
+
+    let total = 0;
+    caseDef.loot.forEach((entry) => {
+        const skin = skinCatalog[entry.skinId];
+        if (!skin) return;
+        const key = skin.rarity;
+        bucket[key] = (bucket[key] || 0) + entry.weight;
+        total += entry.weight;
+    });
+
+    if (!total) return 'Odds unavailable';
+
+    const entries = Object.entries(bucket)
+        .filter(([, value]) => value > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map(([rarity, value]) => `${rarity}: ${Math.round((value / total) * 100)}%`);
+
+    return entries.join(' · ');
 }
 
 function renderCases() {
@@ -380,11 +480,13 @@ function renderCases() {
         const canAfford = state.cash >= caseDef.price;
         return `
             <article class="case-card">
-                <h3>${caseDef.name}</h3>
-                <div class="case-meta">
-                    <span>Price: <strong>${formatMoney(caseDef.price)}</strong></span>
-                    <button class="btn" data-open-case="${caseDef.id}" ${!canAfford || isRolling ? 'disabled' : ''}>Open Case</button>
+                ${safeImg(caseDef.image, caseDef.name, 'case-thumb')}
+                <div class="case-title">
+                    <h3>${caseDef.name}</h3>
+                    <p class="case-sub">Price: <strong>${formatMoney(caseDef.price)}</strong></p>
+                    <p class="case-sub">${caseOddsText(caseDef)}</p>
                 </div>
+                <button class="btn" data-open-case="${caseDef.id}" ${!canAfford || isRolling ? 'disabled' : ''}>Open</button>
             </article>
         `;
     }).join('');
@@ -403,11 +505,11 @@ function renderMarket() {
     if (!marketListNode) return;
 
     marketListNode.innerHTML = marketSkins.map((skinId) => {
-        const skin = skins[skinId];
-        const buyPrice = skin.value * 1.14;
+        const skin = skinCatalog[skinId];
+        const buyPrice = skin.value * 1.13;
         return `
             <article class="skin-row">
-                ${cardImageMarkup(skin, 'skin-thumb')}
+                ${safeImg(skin.image, skin.name, 'skin-thumb')}
                 <div>
                     <h3>${skin.name}</h3>
                     <p class="skin-meta"><span class="rarity ${rarityBadgeClass(skin.rarity)}">${skin.rarity}</span> <span class="skin-value">${formatMoney(skin.value)}</span></p>
@@ -429,7 +531,7 @@ function renderInventory() {
     if (!inventoryListNode) return;
 
     if (!state.inventory.length) {
-        inventoryListNode.innerHTML = '<p class="empty-note">No skins yet. Open a case or buy from market.</p>';
+        inventoryListNode.innerHTML = '<p class="empty-note">No skins yet. Open cases or buy from market.</p>';
         if (sellAllButton) sellAllButton.disabled = true;
         return;
     }
@@ -437,14 +539,14 @@ function renderInventory() {
     if (sellAllButton) sellAllButton.disabled = false;
 
     inventoryListNode.innerHTML = state.inventory.slice().reverse().map((item) => {
-        const skin = skins[item.skinId];
+        const skin = skinCatalog[item.skinId];
         if (!skin) return '';
 
         const sellPrice = skin.value * 0.92;
 
         return `
             <article class="inventory-card">
-                ${cardImageMarkup(skin, 'skin-thumb')}
+                ${safeImg(skin.image, skin.name, 'skin-thumb')}
                 <div>
                     <h3>${skin.name}</h3>
                     <p class="skin-meta"><span class="rarity ${rarityBadgeClass(skin.rarity)}">${skin.rarity}</span> <span class="skin-value">Sell ${formatMoney(sellPrice)}</span></p>
@@ -462,11 +564,31 @@ function renderInventory() {
     });
 }
 
+function renderHistory() {
+    if (!historyListNode) return;
+
+    if (!state.history.length) {
+        historyListNode.innerHTML = '<p class="empty-note">No actions yet.</p>';
+        return;
+    }
+
+    historyListNode.innerHTML = state.history
+        .slice()
+        .reverse()
+        .map((item) => {
+            const stamp = new Date(item.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const kindClass = item.kind === 'good' ? 'log-good' : item.kind === 'bad' ? 'log-bad' : '';
+            return `<article class="history-item ${kindClass}"><p>${item.text}</p><p class="history-time">${stamp}</p></article>`;
+        })
+        .join('');
+}
+
 function renderAll() {
     renderStats();
     renderCases();
     renderMarket();
     renderInventory();
+    renderHistory();
 }
 
 function addSkinToInventory(skinId, source) {
@@ -480,18 +602,18 @@ function addSkinToInventory(skinId, source) {
 }
 
 function buySkin(skinId) {
-    const skin = skins[skinId];
+    const skin = skinCatalog[skinId];
     if (!skin || isRolling) return;
 
-    const buyPrice = skin.value * 1.14;
-
+    const buyPrice = skin.value * 1.13;
     if (state.cash < buyPrice) {
-        setRollMessage('Not enough cash for this market buy.', 'log-bad');
+        setRollMessage('Not enough cash for this listing.', 'log-bad');
         return;
     }
 
     state.cash -= buyPrice;
     addSkinToInventory(skinId, 'market');
+    addHistory(`Bought ${skin.name} for ${formatMoney(buyPrice)}.`, 'good');
     saveState();
     renderAll();
     setRollMessage(`Bought ${skin.name} for ${formatMoney(buyPrice)}.`, 'log-good');
@@ -502,13 +624,14 @@ function sellSkin(uid) {
     if (index < 0) return;
 
     const item = state.inventory[index];
-    const skin = skins[item.skinId];
+    const skin = skinCatalog[item.skinId];
     if (!skin) return;
 
     const sellPrice = skin.value * 0.92;
     state.cash += sellPrice;
     state.inventory.splice(index, 1);
     state.soldSkins += 1;
+    addHistory(`Sold ${skin.name} for ${formatMoney(sellPrice)}.`, 'good');
     saveState();
     renderAll();
     setRollMessage(`Sold ${skin.name} for ${formatMoney(sellPrice)}.`, 'log-good');
@@ -518,17 +641,18 @@ function sellAllSkins() {
     if (!state.inventory.length) return;
 
     const payout = state.inventory.reduce((sum, item) => {
-        const skin = skins[item.skinId];
-        if (!skin) return sum;
-        return sum + skin.value * 0.92;
+        const skin = skinCatalog[item.skinId];
+        return skin ? sum + skin.value * 0.92 : sum;
     }, 0);
 
     state.cash += payout;
-    state.soldSkins += state.inventory.length;
+    const count = state.inventory.length;
+    state.soldSkins += count;
     state.inventory = [];
+    addHistory(`Sold ${count} skins for ${formatMoney(payout)}.`, 'good');
     saveState();
     renderAll();
-    setRollMessage(`Sold entire inventory for ${formatMoney(payout)}.`, 'log-good');
+    setRollMessage(`Sold all skins for ${formatMoney(payout)}.`, 'log-good');
 }
 
 function setRollMessage(text, className) {
@@ -548,7 +672,7 @@ function renderRollStrip(items) {
     rollTrackNode.innerHTML = items.map((skin) => {
         return `
             <article class="roll-item">
-                ${cardImageMarkup(skin, '')}
+                ${safeImg(skin.image, skin.name, '')}
                 <p>${skin.name}</p>
             </article>
         `;
@@ -557,8 +681,8 @@ function renderRollStrip(items) {
 
 function spinToWinner(winner, poolSkins) {
     const spinItems = [];
-    const totalItems = 38;
-    const winnerIndex = 30;
+    const totalItems = 42;
+    const winnerIndex = 33;
 
     for (let i = 0; i < totalItems; i += 1) {
         const randomSkin = poolSkins[Math.floor(Math.random() * poolSkins.length)];
@@ -566,7 +690,6 @@ function spinToWinner(winner, poolSkins) {
     }
 
     spinItems[winnerIndex] = winner;
-
     renderRollStrip(spinItems);
 
     const itemWidth = 118;
@@ -577,12 +700,12 @@ function spinToWinner(winner, poolSkins) {
 
     requestAnimationFrame(() => {
         if (!rollTrackNode) return;
-        rollTrackNode.style.transition = 'transform 4.2s cubic-bezier(0.11, 0.78, 0.16, 1)';
+        rollTrackNode.style.transition = 'transform 4.4s cubic-bezier(0.08, 0.75, 0.13, 1)';
         rollTrackNode.style.transform = `translateX(${targetX}px)`;
     });
 
     return new Promise((resolve) => {
-        window.setTimeout(() => resolve(), 4300);
+        window.setTimeout(() => resolve(), 4500);
     });
 }
 
@@ -596,10 +719,11 @@ async function openCase(caseDef) {
 
     isRolling = true;
     state.cash -= caseDef.price;
+    addHistory(`Opened ${caseDef.name} for ${formatMoney(caseDef.price)}.`, 'info');
     saveState();
     renderAll();
 
-    const casePool = caseDef.loot.map((entry) => skins[entry.skinId]).filter(Boolean);
+    const casePool = caseDef.loot.map((entry) => skinCatalog[entry.skinId]).filter(Boolean);
     const winner = chooseWeightedSkin(caseDef.loot);
 
     setRollMessage(`Opening ${caseDef.name}...`, '');
@@ -607,10 +731,11 @@ async function openCase(caseDef) {
 
     addSkinToInventory(winner.id, caseDef.id);
     state.openedCases += 1;
-    saveState();
-    renderAll();
+    addHistory(`Unboxed ${winner.name} worth ${formatMoney(winner.value)}.`, 'good');
 
     isRolling = false;
+    saveState();
+    renderAll();
     setRollMessage(`You unboxed ${winner.name} (${formatMoney(winner.value)}).`, 'log-good');
 }
 
